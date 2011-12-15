@@ -47,7 +47,7 @@ behavior:
  - TypeError
  - undefined
  
-//note, review es5.github.com and change all `a.hasOwnProperty(b)` calls to `b in a` as per [[HasProperty]]
+//Should non-standard objects be separated into separate files, or comipled into monolithic Objects? monolithic
 
 /**
  * @dependencies
