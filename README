@@ -40,5 +40,3 @@ behavior:
  - null
  - TypeError
  - undefined
- 
-//note, review es5.github.com and change all `a.hasOwnProperty(b)` calls to `b in a` as per [[HasProperty]]

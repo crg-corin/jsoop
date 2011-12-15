@@ -2,7 +2,6 @@
 /**
  * @dependencies
  * Object
- * Object.prototype.hasOwnProperty
  * Object.prototype.toString
  * Function.prototype.call
  * Function.isFunction
@@ -42,7 +41,7 @@
             t = Object(this);
             len = t.length >>> 0;
             for (i = 0; i < len; i += 1) {
-                if (t.hasOwnProperty(i)) {
+                if (i in t) {
                     //in case callback mutates any values
                     ii = i;
                     val = t[i];

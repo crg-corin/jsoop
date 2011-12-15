@@ -2,7 +2,6 @@
 /**
  * @dependencies
  * Object
- * Object.prototype.hasOwnProperty
  * TypeError
  * Math.abs
  * Math.floor
@@ -45,7 +44,7 @@
                 }
             }
             for (i = n < 0 ? len + n : Math.min(n, len - 1); i >= 0; i -= 1) {
-                if (t.hasOwnProperty(i) && t[i] === search) {
+                if (i in t && t[i] === search) {
                     return i;
                 }
             }
