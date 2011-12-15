@@ -34,11 +34,33 @@ behavior:
  - Math.PI
  - Math.pow
  - Math.sin
+ - null
+ - Number
+ - Number.MAX_VALUE
+ - Number.MIN_VALUE
+ - Number.NaN
+ - Number.NEGATIVE_INFINITY
+ - Number.POSITIVE_INFINITY
  - Object
  - Object.prototype.hasOwnProperty
  - Object.prototype.toString
- - null
  - TypeError
  - undefined
  
 //note, review es5.github.com and change all `a.hasOwnProperty(b)` calls to `b in a` as per [[HasProperty]]
+
+/**
+ * @dependencies
+ * 
+ * @dependents
+ * 
+ * @param
+ * 
+ * @return
+ */
+(function () {
+    "use strict";
+    if (!) {
+        
+    }
+}());
