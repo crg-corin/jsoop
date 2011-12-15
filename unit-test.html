@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Unit tests</title>
+</head>
+<body>
+<!-- -->
+<script src="Function.isFunction.js"></script>
+<script>
+    //console.assert(Function.isFunction(), '');
+    //positive tests
+    console.assert(Function.isFunction(function(){}), 'anonymous function is a function');
+    console.assert(Function.isFunction(new Function()), 'function constructor instance is a function');
+    //negative tests
+    console.assert(Function.isFunction() === false, 'empty function call is not a function');
+    console.assert(Function.isFunction(undefined) === false, 'undefined is not a function');
+    console.assert(Function.isFunction(null) === false, 'null is not a function');
+    console.assert(Function.isFunction(0) === false, 'numeric literal is not a function');
+    console.assert(Function.isFunction('') === false, 'string literal is not a function');
+    console.assert(Function.isFunction([]) === false, 'array literal is not a function');
+    console.assert(Function.isFunction({}) === false, 'object literal is not a function');
+</script>
+<!-- -->
+<script src="Array.isArray.js"></script>
+<script>
+    //console.assert(Array.isArray(), '');
+</script>
+<!-- -->
+<script src="Array.prototype.every.js"></script>
+<script>
+</script>
+<!-- -->
+<script src="Array.prototype.filter.js"></script>
+<script>
+</script>
+<!-- -->
+<script src="Array.prototype.forEach.js"></script>
+<script>
+</script>
+<!-- -->
+<script src="Array.prototype.indexOf.js"></script>
+<script>
+</script>
+<!-- -->
+<script src="Array.prototype.lastIndexOf.js"></script>
+<script>
+</script>
+<!-- -->
+<script src="Array.prototype.map.js"></script>
+<script>
+</script>
+<!-- -->
+<script src="Array.prototype.reduce.js"></script>
+<script>
+</script>
+<!-- -->
+<script src="Array.prototype.reduceRight.js"></script>
+<script>
+</script>
+<!-- -->
+<script src="Array.prototype.some.js"></script>
+<script>
+</script>
+<!-- -->
+</body>
+</html>
