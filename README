@@ -1,1 +1,7 @@
-Lorem Ipsum Dolor Sit Amet
+/*********
+ * JSOOP *
+ *********/
+
+JSOOP is a JavaScript Object-Oriented Programming library of
+various different classes, methods, functions, and utilities
+that should be included in JavaScript by default, but aren't.
