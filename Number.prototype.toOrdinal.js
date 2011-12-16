@@ -26,10 +26,10 @@
             }
             t = Number(this);
             if (isNaN(t)) {
-                throw new TypeError('this is not a number');
+                throw new RangeError('this is not a number');
             }
             if (!isFinite(t)) {
-                throw new TypeError('this is not a finite number');
+                throw new RangeError('this is not a finite number');
             }
             t = t > 0 ? Math.floor(t) : Math.ceil(t);
             prefix = withVal ? String(t) : '';

@@ -46,8 +46,6 @@ behavior:
  - Object.prototype.toString
  - TypeError
  - undefined
- 
-//Should non-standard objects be separated into separate files, or comipled into monolithic Objects? monolithic
 
 /**
  * @dependencies
