@@ -63,5 +63,13 @@
 <script>
 </script>
 <!-- -->
+<script src="Number.prototype.toOrdinal.js"></script>
+<script>
+    console.assert(1..toOrdinal(true) === '1st', '1 is "1st"');
+    console.assert(1.5.toOrdinal(true) === '1st', '1.5 is "1st"');
+    console.assert(1..toOrdinal() === 'st', '1 is "st"');
+    console.assert(0..toOrdinal(true) === '0th', '0 is "0th"');
+</script>
+<!-- -->
 </body>
 </html>
