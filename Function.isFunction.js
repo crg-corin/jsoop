@@ -16,7 +16,7 @@
  * An object or value to test
  * 
  * @return Boolean
- * true if arg is a function
+ * true if arg is a Function
  */
 (function () {
     "use strict";

@@ -1,3 +1,15 @@
+/**
+ * @dependencies
+ * Array.prototype.slice
+ * Function.prototype.call
+ * 
+ * @dependents
+ * 
+ * @param
+ * 
+ * @return Function
+ * returns the curried function with the provided arguments pre-populated
+ */
 (function () {
     "use strict";
     if (!Function.prototype.partial) {
@@ -11,9 +23,8 @@
                     i,
                     args;
                 args = Array.prototype.slice.call(argmts);
-                console.log(args);
                 for (i = arg = 0; i < args.length && arg < arguments.length; i++) {
-                    if (args[i] === undefined) {
+                    if (typeof args[i] === 'undefined') {
                         args[i] = arguments[arg++];
                     }
                 }

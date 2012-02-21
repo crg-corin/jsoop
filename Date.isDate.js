@@ -9,13 +9,13 @@
  * An object or value to test
  * 
  * @return Boolean
- * true if arg is an Array
+ * true if arg is a Date
  */
 (function () {
     "use strict";
-    if (!Array.isArray) {
-        Array.isArray = function (arg) {
-            return Object.prototype.toString.call(arg) === '[object Array]';
+    if (!Date.isDate) {
+        Date.isDate = function (arg) {
+            return Object.prototype.toString.call(arg) === '[object Date]';
         };
     }
 }());
