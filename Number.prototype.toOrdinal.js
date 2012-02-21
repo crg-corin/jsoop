@@ -3,8 +3,10 @@
  * Number
  * String
  * TypeError
- * Math.floor
+ * Math.abs
  * Math.ceil
+ * Math.floor
+ * 
  * 
  * @dependents
  * 
@@ -19,7 +21,8 @@
     "use strict";
     if (!Number.prototype.toOrdinal) {
         Number.prototype.toOrdinal = function (withVal) {
-            var prefix,
+            var absT,
+                prefix,
                 t;
             if (this === null || this === undefined) {
                 throw new TypeError('this is null or not defined');
@@ -32,14 +35,15 @@
                 throw new RangeError('this is not a finite number');
             }
             t = t > 0 ? Math.floor(t) : Math.ceil(t);
+            absT = Math.abs(t);
             prefix = withVal ? String(t) : '';
-            switch (t % 100) {
+            switch (absT % 100) {
                 case 11:
                 case 12:
                 case 13:
                     return prefix + 'th';
             }
-            switch (t % 10) {
+            switch (absT % 10) {
                 case 1:
                     return prefix + 'st';
                 case 2:
@@ -52,28 +56,3 @@
         };
     }
 }());
-
-
-if (!Number.prototype.toOrdinal) {
-  Number.prototype.toOrdinal = function (withVal) {
-    "use strict";
-    var prefix;
-    prefix = withVal ? this.toString() : '';
-    switch (this % 100) {
-      case 11:
-      case 12:
-      case 13:
-        return prefix + 'th';
-    }
-    switch (this % 10) {
-      case 1:
-        return prefix + 'st';
-      case 2:
-        return prefix + 'nd';
-      case 3:
-        return prefix + 'rd';
-      default:
-        return prefix + 'th';
-    }
-  };
-}
