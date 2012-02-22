@@ -82,5 +82,35 @@
     console.assert(Math.roundTo(12345, 5) === 0, '[12345, 5] is 0');
 </script>
 <!-- -->
+<script>
+function isWindow(arg) {
+    var self,
+        str;
+    str = Object.prototype.toString.call(arg);
+    //Safari returns DOMWindow
+    //Chrome returns global
+    //Firefox, Opera & IE9 return Window
+    if (str === '[object DOMWindow]' ||
+        str === '[object Window]' ||
+        str === '[object global]') {
+        return true;
+    }
+    ///window objects always have a `self` property;
+    ///however, `arg.self == arg` could be fooled by:
+    ///var o = {};
+    ///o.self = o;
+    if ('self' in window) {
+        self = arg.self;
+        try {
+            delete arg.self;
+            arg.self = self;
+        } catch (e) {
+            //IE 7&8 throw an error when window.self is deleted
+            return true;
+        }
+    }
+    return false;
+}
+</script>
 </body>
 </html>
