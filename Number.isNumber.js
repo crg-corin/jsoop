@@ -9,13 +9,13 @@
  * An object or value to test
  * 
  * @return Boolean
- * true if arg is an Array
+ * true if arg is a Number
  */
 (function () {
     "use strict";
-    if (!Array.isArray) {
-        Array.isArray = function (arg) {
-            return Object.prototype.toString.call(arg) === '[object Array]';
+    if (!Number.isNumber) {
+        Number.isNumber = function (arg) {
+            return Object.prototype.toString.call(arg) === '[object Number]';
         };
     }
 }());

@@ -71,5 +71,16 @@
     console.assert(0..toOrdinal(true) === '0th', '0 is "0th"');
 </script>
 <!-- -->
+<script src="Math.roundTo.js"></script>
+<script>
+    console.assert(Math.roundTo(1, 0) === 1, '[1, 0] is 1');
+    console.assert(Math.roundTo(12345, 0) === 12345, '[12345, 0] is 12345');
+    console.assert(Math.roundTo(12345, 1) === 12350, '[12345, 1] is 12350');
+    console.assert(Math.roundTo(12345, 2) === 12300, '[12345, 2] is 12300');
+    console.assert(Math.roundTo(12345, 3) === 12000, '[12345, 3] is 12000');
+    console.assert(Math.roundTo(12345, 4) === 10000, '[12345, 4] is 10000');
+    console.assert(Math.roundTo(12345, 5) === 0, '[12345, 5] is 0');
+</script>
+<!-- -->
 </body>
 </html>
