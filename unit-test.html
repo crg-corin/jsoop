@@ -99,7 +99,7 @@ function isWindow(arg) {
     ///however, `arg.self == arg` could be fooled by:
     ///var o = {};
     ///o.self = o;
-    if ('self' in window) {
+    if ('self' in arg) {
         self = arg.self;
         try {
             delete arg.self;
@@ -111,6 +111,22 @@ function isWindow(arg) {
     }
     return false;
 }
+</script>
+<!-- -->
+<script type="text/javascript" src="Object.fromPath.js"></script>
+<script>
+(function () {
+    "use strict";
+    var fizz;
+    fizz = { buzz: ['spiff'] };
+    window.foo = {
+        bar: {
+            baz: 'lorem ipsum'
+        }
+    };
+    console.assert(Object.fromPath('foo.bar.baz') === 'lorem ipsum', '"foo.bar.baz" should be "lorem ipsum"');
+    console.assert(Object.fromPath(fizz, 'buzz.0') === 'spiff', '[fizz, "buzz.0"] should be "spiff"');
+}());
 </script>
 </body>
 </html>
