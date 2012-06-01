@@ -43,6 +43,8 @@ behavior:
  * TypeError
  * undefined
 
+<!-- -->
+
     /**
      * @dependencies
      * 
@@ -55,6 +57,5 @@ behavior:
     (function () {
         "use strict";
         if (!) {
-            
         }
     }());
