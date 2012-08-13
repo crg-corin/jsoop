@@ -8,8 +8,11 @@
             timeout = null;
             immediate = !!immediate;
             threshold = +threshold;
+            if (typeof fn !== 'function') {
+                throw new Error('Function.prototype.debounce must be called on a function.');
+            }
             if (!isFinite(threshold) || threshold < 1) {
-                throw new Error("The debouncing threshold must be a finite number greater than zero (0).");
+                throw new Error('The debouncing threshold must be a finite number greater than zero (0).');
             }
             return function () {
                 var ctxt,
