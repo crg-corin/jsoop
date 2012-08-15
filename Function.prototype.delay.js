@@ -5,14 +5,14 @@
             var fn;
             fn = this;
             if (typeof fn !== 'function') {
-                throw new Error('Function.prototype.delay must be called on a function.');
+                throw new Error('"Function.prototype.delay" must be called on a function.');
             }
             if (!arguments.length) {
                 delay = 1000;
             }
             delay = +delay;
             if (isNaN(delay) || delay < 1) {
-                throw new Error('Function.prototype.delay requires a positive number as a parameter.');
+                throw new Error('"Function.prototype.delay" requires a positive number as a parameter.');
             }
             return function () {
                 var args,
