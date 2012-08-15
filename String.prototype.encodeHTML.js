@@ -16,7 +16,7 @@
     if (!String.prototype.encodeHTML) {
         String.prototype.encodeHTML = function () {
             if (this === null || this === undefined) {
-                throw new TypeError('this is null or not defined');
+                throw new TypeError('"this" is null or not defined');
             }
             return String(this)
                 .replace(/&/g, '&amp;')
