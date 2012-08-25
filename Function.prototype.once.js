@@ -5,14 +5,14 @@
             var fn;
             fn = this;
             if (typeof fn !== 'function') {
-                throw new Error('Function.prototype.once must be called on a function.');
+                throw new Error('"Function.prototype.once" must be called on a function.');
             }
             if (!arguments.length) {
                 n = 1;
             }
             n = +n;
             if (isNaN(n) || n < 1) {
-                throw new Error('Function.prototype.once requires a positive number as a parameter.');
+                throw new Error('"Function.prototype.once" requires a positive number as a parameter.');
             }
             return function () {
                 var args;
