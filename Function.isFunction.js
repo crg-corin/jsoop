@@ -18,11 +18,11 @@
  * @return Boolean
  * true if arg is a Function
  */
-(function () {
+(function (ots) {
     "use strict";
     if (!Function.isFunction) {
         Function.isFunction = function (arg) {
-            return Object.prototype.toString.call(arg) === '[object Function]';
+            return ots.call(arg) === '[object Function]';
         };
     }
-}());
+}(Object.prototype.toString));
