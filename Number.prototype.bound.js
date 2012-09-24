@@ -15,9 +15,9 @@
             if (this === null || this === undefined) {
                 throw new TypeError('this is null or not defined');
             }
-            min = Number(min);
-            max = Number(max);
-            t = Number(this);
+            min = +min;
+            max = +max;
+            t = +this;
             return Math.min(Math.max(t, min), max);
         };
     }
