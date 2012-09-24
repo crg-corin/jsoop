@@ -24,14 +24,9 @@
  */
 (function () {
     "use strict";
-    var isFunction;
-    isFunction = Function.isFunction || function (arg) {
-        return Object.prototype.toString.call(arg) === '[object Function]';
-    };
     if (!Array.prototype.map) {
         Array.prototype.map = function (callback, context) {
             var i,
-                ii,
                 len,
                 ret,
                 t,
@@ -39,7 +34,7 @@
             if (this === null || this === undefined) {
                 throw new TypeError('this is null or not defined');
             }
-            if (!isFunction(callback)) {
+            if (!Function.isFunction(callback)) {
                 throw new TypeError('callback is not a function');
             }
             t = Object(this);
@@ -47,10 +42,8 @@
             ret = [];
             for (i = 0; i < len; i += 1) {
                 if (i in t) {
-                    //in case callback mutates any values
-                    ii = i;
                     val = t[i];
-                    ret.push(callback.call(context, val, ii, t));
+                    ret.push(callback.call(context, val, i, t));
                 }
             }
             return ret;

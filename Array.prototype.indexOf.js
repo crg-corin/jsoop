@@ -35,7 +35,7 @@
             if (!len) {
                 return -1;
             }
-            n = Number(from) || 0;
+            n = +from || 0;
             if (n !== 0 && n !== Infinity && n !== -Infinity) {
                 n = (n > 0 || -1) * Math.floor(Math.abs(n));
             }
