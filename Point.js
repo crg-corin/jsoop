@@ -1,229 +1,189 @@
-(function (w) {
+(function () {
     "use strict";
     function Point(x, y, z) {
+        switch (arguments.length) {
+        case 0:
+            x = 0;
+            //continue;
+        case 1:
+            y = 0;
+            //continue;
+        case 2:
+            z = 0;
+            //continue;
+        }
         if (!(this instanceof Point)) {
             return new Point(x, y, z);
         }
-        this.x = n(x);
-        this.y = n(y);
-        this.z = n(z);
+        this.x = +x;
+        this.y = +y;
+        this.z = +z;
     }
     Point.prototype = {
-        add: function () {
-            var a,
-                i,
-                l,
-                p;
+        add: function (/*p1, p2, p3*/) {
+            var p,
+                i;
             p = this.clone();
-            for (i = 0, l = arguments.length; i < l; i++) {
-                a = arguments[i];
-                p.x += n(a.x);
-                p.y += n(a.y);
-                p.z += n(a.z);
-            }
+            p.addTo.apply(p, arguments);
             return p;
         },
-        addTo: function () {
-            var i,
-                l,
-                p;
-            for (i = 0, l = arguments.length; i < l; i++) {
+        addTo: function (/* p1, p2, p3 */) {
+            var p,
+                i;
+            for (i = 0; i < arguments.length; i += 1) {
                 p = arguments[i];
-                this.x += n(p.x);
-                this.y += n(p.y);
-                this.z += n(p.z);
+                this.x += p.x;
+                this.y += p.y;
+                this.z += p.z;
             }
+            return this;
         },
         clone: function () {
             return new Point(this.x, this.y, this.z);
         },
         copyFrom: function (p) {
-            this.x = n(p.x);
-            this.y = n(p.y);
-            this.z = n(p.z);
+            if (!(p instanceof Point) && window.console) {
+                console.warn('A non-Point object is being copied into a Point');
+            }
+            this.x = +p.x;
+            this.y = +p.y;
+            this.z = +p.z;
+            return this;
         },
         cross: function (p) {
-            var a1,
-                a2,
-                a3,
-                b1,
-                b2,
-                b3;
-            a1 = this.x;
-            a2 = this.y;
-            a3 = this.z;
-            b1 = n(p.x);
-            b2 = n(p.y);
-            b3 = n(p.z);
-            return new Point(
-                a2 * b3 - a3 * b2,
-                a3 * b1 - a1 * b3,
-                a1 * b2 - a2 * b1);
+            return Point.crossProduct(this, p);
         },
         distance: function (p) {
-            var dx,
-                dy,
-                dz;
-            dx = this.x - n(p.x);
-            dy = this.y - n(p.y);
-            dz = this.z - n(p.z);
-            return Math.sqrt(dx * dx + dy * dy + dz * dz);
+            return Point.distance(this, p);
         },
         distanceSquared: function (p) {
-            var dx,
-                dy,
-                dz;
-            dx = this.x - n(p.x);
-            dy = this.y - n(p.y);
-            dz = this.z - n(p.z);
-            return dx * dx + dy * dy + dz * dz;
+            return Point.distanceSquared(this, p);
         },
         dot: function (p) {
-            return this.x * n(p.x) + this.y * n(p.y) + this.z * n(p.z);
+            return Point.dotProduct(this, p);
         },
-        equals: function (p, d) {
-            if (arguments.length < 2) {
-                return (this.x === p.x) && (this.y === p.y) && (this.z === p.z);
-            } else {
-                return this.distance(p) < d;
-            }
+        get length() {
+            return Math.sqrt(this.lengthSquared);
         },
-        length: function () {
-            return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+        set length(val) {
+            var ratio;
+            ratio = val / this.length;
+            this.x *= ratio;
+            this.y *= ratio;
+            this.z *= ratio;
         },
-        lengthSquared: function () {
+        get lengthSquared() {
             return this.x * this.x + this.y * this.y + this.z * this.z;
         },
         normalize: function (a) {
-            var b,
-                l,
-                p;
-            l = this.length() || 1;
-            b = a / l;
+            var p;
+            if (!arguments.length) {
+                a = 1;
+            }
+            a = +a;
             p = this.clone();
-            p.x *= b;
-            p.y *= b;
-            p.z *= b;
+            p.length = a;
             return p;
         },
         offset: function (x, y, z) {
-            this.x += n(x);
-            this.y += n(y);
-            this.z += n(z);
+            switch (arguments.length) {
+            case 0:
+                this.x += x;
+                //continue;
+            case 1:
+                this.y += y;
+                //continue;
+            case 2:
+                this.z += z;
+                //continue;
+            }
+            return this;
         },
         scale: function (a) {
-            a = n(a);
-            return new Point(this.x * a, this.y * a, this.z * a);
-        },
-        scaleBy: function (a) {
-            a = n(a);
-            this.x *= a;
-            this.y *= a;
-            this.z *= a;
-        },
-        setTo: function (x, y, y) {
-            this.x = n(x);
-            this.y = n(y);
-            this.z = n(z);
-        },
-        subtract: function () {
-            var a,
-                i,
-                l,
-                p;
+            var p;
             p = this.clone();
-            for (i = 0, l = arguments.length; i < l; i++) {
-                a = arguments[i];
-                p.x -= n(a.x);
-                p.y -= n(a.y);
-                p.z -= n(a.z);
-            }
+            p.length *= a;
             return p;
         },
-        subtractFrom: function () {
-            var i,
-                l,
-                p;
-            for (i = 0, l = arguments.length; i < l; i++) {
-                p = arguments[i];
-                this.x -= n(p.x);
-                this.y -= n(p.y);
-                this.z -= n(p.z);
+        scaleBy: function (a) {
+            this.length *= a;
+            return this;
+        },
+        set: function (x, y, z) {
+            switch (arguments.length) {
+            case 0:
+                this.x = +x;
+                //continue;
+            case 1:
+                this.y = +y;
+                //continue;
+            case 2:
+                this.z = +z;
+                //continue;
             }
+            return this;
+        },
+        subtract: function (/* p1, p2, p3 */) {
+            var p;
+            p = this.clone();
+            p.subtractFrom.apply(p, arguments);
+            return p;
+        },
+        subtractFrom: function (/* p1, p2, p3 */) {
+            var p,
+                i;
+            for (i = 0; i < arguments.length; i += 1) {
+                p = arguments[i];
+                this.x -= p.x;
+                this.y -= p.y;
+                this.z -= p.z;
+            }
+            return this;
         },
         toString: function () {
-            return '{"x":' + this.x + ',"y":' + this.y + ',"z":' + this.z + '}';
-        },
-        valueOf: function () {
-            return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+            return JSON.stringify(this);
         }
-    };
-    Point.dotProduct = function (p, q) {
-        return n(p.x) * n(q.x) + n(p.y) * n(q.y) + n(p.z) * n(q.z);
-    };
-    Point.crossProduct = function (p, q) {
-        var a1,
-            a2,
-            a3,
-            b1,
-            b2,
-            b3;
-        a1 = n(p.x);
-        a2 = n(p.y);
-        a3 = n(p.z);
-        b1 = n(q.x);
-        b2 = n(q.y);
-        b3 = n(q.z);
-        return new Point(
-            a2 * b3 - a3 * b2,
-            a3 * b1 - a1 * b3,
-            a1 * b2 - a2 * b1);
-    };
-    Point.distance = function (p, q) {
-        var dx,
-            dy,
-            dz;
-        dx = n(p.x) - n(q.x);
-        dy = n(p.y) - n(q.y);
-        dz = n(p.z) - n(q.z);
-        return Math.sqrt(dx * dx + dy * dy + dz * dz);
-    };
-    Point.distanceSquared = function (p, q) {
-        var dx,
-            dy,
-            dz;
-        dx = n(p.x) - n(q.x);
-        dy = n(p.y) - n(q.y);
-        dz = n(p.z) - n(q.z);
-        return dx * dx + dy * dy + dz * dz;
-    };
-    Point.interpolate = function (p, q, f) {
-        var dx,
-            dy,
-            dz,
-            px,
-            py,
-            pz;
-        px = n(p.x);
-        py = n(p.y);
-        pz = n(p.z);
-        dx = n(q.x) - px;
-        dy = n(q.y) - py;
-        dz = n(q.z) - pz;
-        f = n(f);
-        return new Point(px + dx * f, py + dy * f, pz + dz * f);
-    };
-    //2D polar coordinates
-    Point.polar = function (r, theta, deg) {
-        if (deg) {
-            theta = theta * Math.PI / 180;
-        }
-        r = n(r);
-        return new Point(r * Math.cos(theta), r * Math.sin(theta), 0);
     };
     
-    function n(a) {
-        return Number(a) || 0;
-    }
-    w.Point = Point;
-}(window));
+    Point.dotProduct = function (p, q) {
+        return p.x * q.x + p.y * q.y + p.z * q.z;
+    };
+    
+    Point.crossProduct = function (p, q) {
+        return new Point(
+            p.y * q.z - p.z * q.y,
+            p.z * q.x - p.x * q.z,
+            p.x * q.y - p.y * q.x
+        );
+    };
+    
+    Point.distance = function (p, q) {
+        return p.subtract(q).length;
+    };
+    
+    Point.distanceSquared = function (p, q) {
+        return p.subtract(q).lengthSquared;
+    };
+    
+    Point.interpolate = function (p, q, f) {
+        //delta p, q * f + p
+        var d;
+        d = q.subtract(p);
+        d.length *= f;
+        return p.add(d);
+    };
+    
+    Point.polar = function (r, theta, deg) {
+        if (deg) {
+            theta *= Math.PI / 180;
+        }
+        r = +r;
+        return new Point(
+            r * Math.cos(theta),
+            r * Math.sin(theta),
+            0
+        );
+    };
+    
+    window.Point = Point;
+}());
