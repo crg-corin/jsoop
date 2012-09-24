@@ -21,23 +21,18 @@
  */
 (function () {
     "use strict";
-    var isFunction;
-    isFunction = Function.isFunction || function (arg) {
-        return Object.prototype.toString.call(arg) === '[object Function]';
-    };
     if (!Array.prototype.reduce) {
         Array.prototype.reduce = function (callback, init) {
             var a,
                 c,
                 i,
-                ii,
                 len,
                 t,
                 val;
             if (this === null || this === undefined) {
                 throw new TypeError('this is null or not defined');
             }
-            if (!isFunction(callback)) {
+            if (!Function.isFunction(callback)) {
                 throw new TypeError('callback is not a function');
             }
             t = Object(this);
@@ -48,10 +43,8 @@
             }
             for (i = a ? 1 : 0, c = a ? t[0] : init; i < len; i += 1) {
                 if (i in t) {
-                    //in case callback mutates any values
-                    ii = i;
                     val = t[i];
-                    c = callback.call(undefined, c, val, ii, t);
+                    c = callback.call(undefined, c, val, i, t);
                 }
             }
             return c;
