@@ -38,6 +38,17 @@
             }
             return this;
         },
+        get angle() {
+            return Math.atan2(this.y, this.x);
+        },
+        set angle(val) {
+            var x,
+                y;
+            x = this.x * Math.cos(val) - this.y * Math.sin(val);
+            y = this.x * Math.sin(val) + this.y * Math.cos(val);
+            this.x = x;
+            this.y = y;
+        },
         clone: function () {
             return new Point(this.x, this.y, this.z);
         },
@@ -98,6 +109,12 @@
                 //continue;
             }
             return this;
+        },
+        rotate2D: function (rad, deg) {
+            if (deg) {
+                rad = rad * Math.PI / 180;
+            }
+            
         },
         scale: function (a) {
             var p;
