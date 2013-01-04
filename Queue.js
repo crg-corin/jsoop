@@ -1,4 +1,4 @@
-(function (slice) {
+(function (global, Error, setTimeout, slice) {
     "use strict";
     function Q() {
         if (!(this instanceof Q)) {
@@ -11,13 +11,12 @@
     Q.prototype = {
         queue: function (/* fn1, fn2, ... */) {
             var i,
-                l,
                 fn,
                 args;
             if (!arguments.length) {
                 throw new Error('"Queue.prototype.queue" requires at least one function');
             }
-            for (i = 0, l = arguments.length; i < l; i += 1) {
+            for (i = 0; i < arguments.length; i += 1) {
                 fn = arguments[i];
                 if (typeof fn !== 'function') {
                     throw new Error('"Queue.prototype.queue" only accepts functions as parameters');
@@ -64,5 +63,5 @@
         }
     };
     
-    window.Queue = Q;
-}(Array.prototype.slice));
+    global.Queue = Q;
+}(this, this.Error, this.setTimeout, Array.prototype.slice));
