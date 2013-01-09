@@ -1,8 +1,15 @@
 (function (w) {
     "use strict";
-    function Rex(arg) {
+    function characterSetEscape(str) {
+        return ('' + str).replace(/([\]\\^])/g, '\\$1');
+    }
+    function regexEscape(str) {
+        return ('' + str).replace(/([\/\\[\](){}?+*|.^])/g, '\\$1');
+    }
+    
+    function Rex(args) {
         if (!(this instanceof Rex)) {
-            return new Rex(arg);
+            return new Rex(args);
         }
         
         this._rex = [];
@@ -38,8 +45,7 @@
             if (!arguments.length) {
                 include = true;
             }
-            //TODO: regex escape args
-            //args = rescape(args);
+            args = characterSetEscape(args);
             this._rex.push('[' + (include ? '' : '^') + args + ']');
             return this;
         },
@@ -108,6 +114,14 @@
             this._rex.push('|');
             return this;
         },
+        reference: function (n) {
+            n = n >>> 0;
+            if (!isFinite(n) || n < 1) {
+                throw new Error('"n" must be a finite integer greater than zero.')
+            }
+            this._rex.push('\\' + n);
+            return this;
+        },
         repeat: function (n, m) {
             //.repeat()             -> *
             //.repeat(false)        -> *
@@ -170,8 +184,7 @@
             return this;
         },
         text: function (args) {
-            //TODO: regex escape args
-            //args = rescape(args);
+            args = regexEscape(args);
             this._rex.push(args);
             return this;
         },
