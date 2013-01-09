@@ -3,7 +3,7 @@
     //noConflict({base}, {map}); //call noConflict(base, 'prop', obj); for every key->value in {map}
     //noConflict('prop', {obj}); //call noConflict(base, 'prop', obj); using window
     //noConflict({base}, 'prop', {obj});
-    //noConflict([bases], [props], {obj});
+    //noConflict([bases], [props], {obj}); //not supported yet
     
     function noConflict(base, prop, obj) {
         var deleteProp,
