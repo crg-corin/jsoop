@@ -53,6 +53,9 @@
         compile: function () {
             var pattern,
                 flags;
+            if (this._level) {
+                throw new Error('There are ' + this._level + ' open groups that must be closed.');
+            }
             pattern = '' + this;
             flags = this._getFlags();
             return new RegExp(pattern, flags);
