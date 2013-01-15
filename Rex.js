@@ -1,10 +1,10 @@
 (function (w) {
     "use strict";
     function characterSetEscape(str) {
-        return ('' + str).replace(/([\]\\^])/g, '\\$1');
+        return ('' + str).replace(/[\]\\^]/g, '\\$&');
     }
     function regexEscape(str) {
-        return ('' + str).replace(/([\/\\[\](){}?+*|.^])/g, '\\$1');
+        return ('' + str).replace(/[\/\\[\](){}?+*|.^$]/g, '\\$&');
     }
     
     function Rex(args) {
@@ -18,6 +18,7 @@
             i: false,
             m: false
         };
+        this._level = 0;
     }
     Rex.prototype = {
         _getFlags: function () {
@@ -42,7 +43,7 @@
             return this;
         },
         chars: function (args, include) {
-            if (!arguments.length) {
+            if (arguments.length < 2) {
                 include = true;
             }
             args = characterSetEscape(args);
@@ -64,7 +65,11 @@
             return this;
         },
         end: function () {
+            if (!this._level) {
+                throw new Error('No groups have been started. Use "followedBy" or "group" to start a group.');
+            }
             this._rex.push(')');
+            this._level -= 1;
             return this;
         },
         finish: function () {
@@ -76,6 +81,7 @@
                 f = true;
             }
             this._rex.push(f ? '(?=' : '(?!');
+            this._level += 1;
             return this;
         },
         global: function (g) {
@@ -90,6 +96,7 @@
                 capture = true;
             }
             this._rex.push('(' + (capture ? '' : '?:'));
+            this._level += 1;
             return this;
         },
         ignoreCase: function (i) {
