@@ -199,6 +199,9 @@
             return this._rex.join('');
         },
         word: function (w) {
+            if (!arguments.length) {
+                w = true;
+            }
             this._rex.push(w ? '\\w' : '\\W');
             return this;
         }
