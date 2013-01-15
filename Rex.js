@@ -1,5 +1,8 @@
 (function (w) {
     "use strict";
+    //characterSetEscape purposefully does _not_ escape the hyphen character (-).
+    //this is to allow `Rex.prototype.chars` the ability to accept character ranges
+    //such as `a-z`.
     function characterSetEscape(str) {
         return ('' + str).replace(/[\]\\^]/g, '\\$&');
     }
@@ -42,6 +45,7 @@
             this._rex.push(b ? '\\b' : '\\B');
             return this;
         },
+        //Note: if the `-` character must be matched, it must be listed last.
         chars: function (args, include) {
             if (arguments.length < 2) {
                 include = true;
