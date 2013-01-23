@@ -1,4 +1,4 @@
-(function () {
+(function (root) {
     "use strict";
     function Point(x, y, z) {
         switch (arguments.length) {
@@ -53,7 +53,7 @@
             return new Point(this.x, this.y, this.z);
         },
         copyFrom: function (p) {
-            if (!(p instanceof Point) && window.console) {
+            if (!(p instanceof Point) && root.console) {
                 console.warn('A non-Point object is being copied into a Point');
             }
             this.x = +p.x;
@@ -202,5 +202,5 @@
         );
     };
     
-    window.Point = Point;
-}());
+    root.Point = Point;
+}(this));

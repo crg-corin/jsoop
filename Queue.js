@@ -1,4 +1,4 @@
-(function (global, Error, setTimeout, slice) {
+(function (root, Error, setTimeout, slice) {
     "use strict";
     function Q() {
         if (!(this instanceof Q)) {
@@ -63,5 +63,5 @@
         }
     };
     
-    global.Queue = Q;
+    root.Queue = Q;
 }(this, this.Error, this.setTimeout, Array.prototype.slice));
