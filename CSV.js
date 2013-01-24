@@ -100,8 +100,43 @@
             //return the resultant table
             return table;
         },
-        stringify: function () {
-            
+        stringify: function(table, replacer) {
+            replacer = replacer || passthrough;
+            var csv,
+                c,
+                cc,
+                r,
+                rowCount,
+                cell;
+            //initialize the csv data
+            csv = '';
+            //get the number of rows
+            rowCount = table.length;
+            //for every row in the table....
+            for (r = 0; r < rowCount; ++r) {
+                //if the current row is not the first...
+                if (r) {
+                    //add a newline
+                    csv += '\r\n';
+                }
+                //for every column in the curent row...
+                for (c = 0, cc = table[r].length; c < cc; ++c) {
+                    //if the current column is not the first...
+                    if (c) {
+                        //add a comma
+                        csv += ',';
+                    }
+                    //get the cell value from the table as a string
+                    cell = '' + replacer(r, c, table[r][c]);
+                    //if the cell contains commas, newlines, or quotes...
+                    if (/[,\r\n"]/.test(cell)) {
+                        //escape the contained quotes and surround the value in quotes
+                        cell = '"' + cell.replace(/"/g, '""') + '"';
+                    }
+                    csv += cell || '';
+                }
+            }
+            return csv;
         }
     };
     root.CSV = CSV;
