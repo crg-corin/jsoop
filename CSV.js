@@ -94,8 +94,13 @@
                         c += 1;
                     }
                 }
-                //if the current character is a newline...
-                if (/[\r\n]/.test(chars[c])) {
+                //if the current character is a carriage return...
+                if ('\r' === chars[c]) {
+                    //increment the current position
+                    c += 1;
+                }
+                //if the current character is a line feed...
+                if ('\n' === chars[c]) {
                     //increment the current position
                     c += 1;
                 }
