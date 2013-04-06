@@ -43,9 +43,9 @@
                 'undefined': ''
             };
             ok(Object.has(a, ''), '`{"":"","null":"","undefined":""}` should have `""` as a key');
-            ok(Object.has(a, null), '`{"":"","null":"","undefined":""}` should have `null` as a key');
+            ok(!Object.has(a, null), '`{"":"","null":"","undefined":""}` should not have `null` as a key');
             ok(Object.has(a, 'null'), '`{"":"","null":"","undefined":""}` should have `"null"` as a key');
-            ok(Object.has(a, undefined), '`{"":"","null":"","undefined":""}` should have `undefined` as a key');
+            ok(!Object.has(a, undefined), '`{"":"","null":"","undefined":""}` should not have `undefined` as a key');
             ok(Object.has(a, 'undefined'), '`{"":"","null":"","undefined":""}` should have `"undefined"` as a key');
         } catch (ex) {
             console.error(ex);
