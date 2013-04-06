@@ -80,9 +80,8 @@
         }
     });
     
-    test('QueryString keys', 22, function () {
+    test('QueryString keys: implicit null', 5, function () {
         var a,
-            b,
             ex;
         try {
             a = new root.QueryString('');
@@ -94,10 +93,14 @@
         } catch (ex) {
             console.error(ex);
         }
-        
+    });
+    
+    test('QueryString keys: empty query string', 5, function () {
+        var a,
+            ex;
         try {
             a = new root.QueryString('?');
-            deepEquals(a.keys(), [''], 'the empty query string should have `\'\'` as a key');
+            deepEquals(a.keys(), [''], 'the empty query string should have `""` as its only key');
             ok(!a.hasKey(), 'no query string should have `undefined` as a key');
             ok(!a.hasKey(null), 'no query string should have `null` as a key');
             ok(a.hasKey(''), 'the empty query string should have `""` as a key');
@@ -105,7 +108,26 @@
         } catch (ex) {
             console.error(ex);
         }
-        
+    });
+    
+    test('QueryString keys: `?=`', 5, function () {
+        var a,
+            ex;
+        try {
+            a = new root.QueryString('?=');
+            deepEquals(a.keys(), [''], '`?=` should have `""` as its only key');
+            ok(!a.hasKey(), 'no query string should have `undefined` as a key');
+            ok(!a.hasKey(null), 'no query string should have `null` as a key');
+            ok(a.hasKey(''), '`?=` should have `""` as a key');
+            ok(!a.hasKey('foo'), '`?=` should not have `"foo"` as a key');
+        } catch (ex) {
+            console.error(ex);
+        }
+    });
+    
+    test('QueryString keys: `?foo=bar`', 5, function () {
+        var a,
+            ex;
         try {
             a = new root.QueryString('?foo=bar');
             deepEquals(a.keys(), ['foo'], '`?foo=bar` should have `"foo"` as its only key');
@@ -116,7 +138,12 @@
         } catch (ex) {
             console.error(ex);
         }
-        
+    });
+    
+    test('QueryString keys: `?foo=bar&fizz=buzz`', 7, function () {
+        var a,
+            b,
+            ex;
         try {
             a = new root.QueryString('?foo=bar&fizz=buzz');
             deepEquals(a.keys(), ['foo', 'fizz'], '`?foo=bar&fizz=buzz` should have `"foo"` and `"fizz"` as its only keys');
