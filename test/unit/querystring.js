@@ -19,6 +19,90 @@
         }
     });
     
+    test('QueryString.parse', 13, function () {
+        var a,
+            ex;
+        ok(root.QueryString.parse, '`QueryString.parse` should exist');
+        strictEqual(typeof root.QueryString.parse, 'function', '`QueryString.parse` should be a function');
+        
+        try {
+            a = QueryString.parse();
+            deepEqual(a, {}, '`undefined` should produe an empty object');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse(null);
+            deepEqual(a, {}, '`null` should produce an empty object');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('');
+            deepEqual(a, {}, 'the implicit null query string should produce an empty object');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('?');
+            deepEqual(a, {'': [null]}, 'the empty query string should produce `{"":[null]}`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('?&');
+            deepEqual(a, {'': [null, null]}, '`?&` should produce `{"":[null,null]}`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('?;');
+            deepEqual(a, {'': [null, null]}, '`?;` should produce `{"":[null,null]}`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('?=');
+            deepEqual(a, {'': ['']}, '`?=` should produce `{"":[""]}`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('?foo=bar');
+            deepEqual(a, {'foo': ['bar']}, '`?foo=bar` should produce `{"foo":["bar"]}`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('foo=bar');
+            deepEqual(a, {'foo': ['bar']}, '`foo=bar` should produce `{"foo":["bar"]}`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('?foo=bar&foo=baz');
+            deepEqual(a, {'foo': ['bar', 'baz']}, '`?foo=bar&foo=baz` should produce `{"foo":["bar","baz"]}`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.parse('?foo=bar&fizz=buzz');
+            deepEqual(a, {'foo': ['bar'], 'fizz': ['buzz']}, '`?foo=bar&fizz=buzz` should produce `{"foo":["bar"],"fizz":["buzz"]}`');
+        } catch (ex) {
+            console.error(ex);
+        }
+    });
+    
     test('QueryString references', 7, function () {
         var a,
             b,
