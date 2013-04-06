@@ -103,6 +103,118 @@
         }
     });
     
+    test('QueryString.stringify', 13, function () {
+        var a,
+            ex;
+        ok(root.QueryString.stringify, '`QueryString.stringify` should exist');
+        strictEqual(typeof root.QueryString.stringify, 'function', '`QueryString.stringify` should be a function');
+        
+        try {
+            a = QueryString.stringify();
+            strictEqual(a, '', '`undefined` should produce `""`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify(null);
+            strictEqual(a, '', '`null` should produce `""`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({});
+            strictEqual(a, '', '`{}` should produce `""`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({
+                '': undefined
+            });
+            strictEqual(a, '?', '`{"":undefined}` should produce `"?"`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({
+                '': [
+                    undefined
+                ]
+            });
+            strictEqual(a, '?', '`{"":[undefined]}` should produce `"?"`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({
+                '': null
+            });
+            strictEqual(a, '?', '`{"":null}` should produce `"?"`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({
+                '': [
+                    null
+                ]
+            });
+            strictEqual(a, '?', '`{"":[null]}` should produce `"?"`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({
+                'foo': 'bar'
+            });
+            strictEqual(a, '?foo=bar', '`{"foo":"bar"}` should produce `"?foo=bar"`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({
+                'foo': [
+                    'bar'
+                ]
+            });
+            strictEqual(a, '?foo=bar', '`{"foo":["bar"]}` should produce `"?foo=bar"`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({
+                'foo': [
+                    'bar',
+                    'baz'
+                ]
+            });
+            strictEqual(a, '?foo=bar&foo=baz', '`{"foo":["bar","baz"}` should produce `"?foo=bar&foo=baz"`');
+        } catch (ex) {
+            console.error(ex);
+        }
+        
+        try {
+            a = QueryString.stringify({
+                'foo': [
+                    'bar',
+                    'baz'
+                ]
+            }, true);
+            strictEqual(a, '?foo=bar;foo=baz', '`{"foo":["bar","baz"]}` should produce `"?foo=bar;foo=baz"`');
+        } catch (ex) {
+            console.error(ex);
+        }
+    });
+    
     test('QueryString references', 7, function () {
         var a,
             b,
