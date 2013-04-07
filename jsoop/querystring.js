@@ -42,8 +42,49 @@
         return pair.join('=');
     }
     
+    function keyCount(hash) {
+        var c,
+            key;
+        c = 0;
+        for (key in hash) {
+            if (Object.has(hash, key)) {
+                c += 1;
+            }
+        }
+        return c;
+    }
+    
+    function valueCounts(arr) {
+        var hash,
+            i,
+            key,
+            value;
+        hash = {};
+        for (i = 0; i < arr.length; i += 1) {
+            value = arr[i];
+            if (value === null ||
+                value === undefined) {
+                key = 'null';
+            } else {
+                key = '_' + value;
+            }
+            if (Object.has(hash, key)) {
+                hash[key] += 1;
+            } else {
+                hash[key] = 1;
+            }
+        }
+        return hash;
+    }
+    
     function QueryString(q) {
-        var i;
+        var i,
+            hash;
+        
+        if (q === null ||
+            q === undefined) {
+            q = '';
+        }
         
         if (!(this instanceof QueryString)) {
             return new QueryString(q);
@@ -53,20 +94,88 @@
             return queryStringHash[q];
         }
         
+        hash = QueryString.parse(q);
+        
         for (i in queryStringHash) {
             if (Object.has(queryStringHash, i) &&
-                queryStringHash[i].equals(q)) {
+                queryStringHash[i].equals(hash)) {
                 queryStringHash[q] = queryStringHash[i];
                 return queryStringHash[q];
             }
         }
         
-        this.hash = QueryString.parse(q);
+        queryStringHash[q] = this;
+        
+        this.hash = hash;
     }
     
     QueryString.prototype = {
-        equals: function (q) {
-            return false;
+        equals: function (hash) {
+            var key,
+                thatCount,
+                thatValue,
+                thatValues,
+                thisCount,
+                thisValue,
+                thisValues,
+                value;
+            
+            //alternatively:
+            //if (Object.prototype.toString.call(hash) === '[object String]') {
+            if (typeof hash === 'string') {
+                hash = QueryString.parse(hash);
+            }
+            
+            if (this.hash === hash) {
+                return true;
+            }
+            
+            thisCount = keyCount(this.hash);
+            thatCount = keyCount(hash);
+            
+            if (thisCount !== thatCount) {
+                return false;
+            }
+            
+            for (key in this.hash) {
+                if (Object.has(this.hash, key)) {
+                    if (Object.has(hash, key)) {
+                        thisValue = this.hash[key];
+                        thatValue = hash[key];
+                        if (!(thisValue instanceof Array)) {
+                            thisValue = [thisValue];
+                        }
+                        if (!(thatValue instanceof Array)) {
+                            thatValue = [thatValue];
+                        }
+                        if (thisValue.length !== thatValue.length) {
+                            return false;
+                        }
+                        thisValues = valueCounts(thisValue);
+                        thatValues = valueCounts(thatValue);
+                        
+                        thisCount = keyCount(thisValues);
+                        thatCount = keyCount(thatValues);
+                        
+                        if (thisCount !== thatCount) {
+                            return false;
+                        }
+                        
+                        for (value in thisValues) {
+                            if (Object.has(thisValues, value)) {
+                                if (!Object.has(thatValues, value) ||
+                                    thisValues[value] !== thatValues[value]) {
+                                    return false;
+                                }
+                            }
+                        }
+                        
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return true;
         },
         keys: function () {
             return [];
