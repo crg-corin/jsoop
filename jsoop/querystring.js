@@ -177,8 +177,19 @@
             }
             return true;
         },
+        hasKey: function (key) {
+            return Object.has(this.hash, key);
+        },
         keys: function () {
-            return [];
+            var key,
+                keys;
+            keys = [];
+            for (key in this.hash) {
+                if (Object.has(this.hash, key)) {
+                    keys.push(key);
+                }
+            }
+            return keys;
         },
         toJSON: function () {
             throw new Error('not implemented');
