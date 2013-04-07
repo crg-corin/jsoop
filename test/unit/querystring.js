@@ -281,7 +281,7 @@
             ex;
         try {
             a = new root.QueryString('');
-            deepEquals(a.keys(), [], 'the implicit null query string should have no keys');
+            deepEqual(a.keys(), [], 'the implicit null query string should have no keys');
             ok(!a.hasKey(), 'no query string should have `undefined` as a key');
             ok(!a.hasKey(null), 'no query string should have `null` as a key');
             ok(!a.hasKey(''), 'the implicit null query string should not have `""` as a key');
@@ -296,7 +296,7 @@
             ex;
         try {
             a = new root.QueryString('?');
-            deepEquals(a.keys(), [''], 'the empty query string should have `""` as its only key');
+            deepEqual(a.keys(), [''], 'the empty query string should have `""` as its only key');
             ok(!a.hasKey(), 'no query string should have `undefined` as a key');
             ok(!a.hasKey(null), 'no query string should have `null` as a key');
             ok(a.hasKey(''), 'the empty query string should have `""` as a key');
@@ -311,7 +311,7 @@
             ex;
         try {
             a = new root.QueryString('?=');
-            deepEquals(a.keys(), [''], '`?=` should have `""` as its only key');
+            deepEqual(a.keys(), [''], '`?=` should have `""` as its only key');
             ok(!a.hasKey(), 'no query string should have `undefined` as a key');
             ok(!a.hasKey(null), 'no query string should have `null` as a key');
             ok(a.hasKey(''), '`?=` should have `""` as a key');
@@ -326,7 +326,7 @@
             ex;
         try {
             a = new root.QueryString('?foo=bar');
-            deepEquals(a.keys(), ['foo'], '`?foo=bar` should have `"foo"` as its only key');
+            deepEqual(a.keys(), ['foo'], '`?foo=bar` should have `"foo"` as its only key');
             ok(!a.hasKey(), 'no query string should have `undefined` as a key');
             ok(!a.hasKey(null), 'no query string should have `null` as a key');
             ok(!a.hasKey(''), '`?foo=bar` should not have `""` as a key');
@@ -342,7 +342,7 @@
             ex;
         try {
             a = new root.QueryString('?foo=bar&fizz=buzz');
-            deepEquals(a.keys(), ['foo', 'fizz'], '`?foo=bar&fizz=buzz` should have `"foo"` and `"fizz"` as its only keys');
+            deepEqual(a.keys(), ['foo', 'fizz'], '`?foo=bar&fizz=buzz` should have `"foo"` and `"fizz"` as its only keys');
             ok(!a.hasKey(), 'no query string should have `undefined` as a key');
             ok(!a.hasKey(null), 'no query string should have `null` as a key');
             ok(!a.hasKey(''), '`?foo=bar&fizz=buzz` should not have `""` as a key');
@@ -350,7 +350,7 @@
             ok(a.hasKey('fizz'), '?foo=bar&fizz=buzz` should have `"fizz"` as a key');
             
             b = new root.QueryString('?fizz=buzz&foo=bar');
-            strictEquals(a, b, '`?foo=bar&fizz=buzaz` should reference the same object as `?fizz=buzz&foo=bar`');
+            strictEqual(a, b, '`?foo=bar&fizz=buzaz` should reference the same object as `?fizz=buzz&foo=bar`');
         } catch (ex) {
             console.error(ex);
         }
