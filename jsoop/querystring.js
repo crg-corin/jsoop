@@ -18,6 +18,30 @@
     
     var queryStringHash;
     
+    function buildKeyValuePair(rawKey, rawValue) {
+        var key,
+            pair,
+            value;
+        
+        //URL encode the `rawKey`
+        key = enc(rawKey);
+        
+        //if `rawValue` is `null` or `undefined`...
+        if (rawValue === null ||
+            rawValue === undefined) {
+            //there is no value part of the key-value pair
+            pair = [key];
+        } else {
+            //otherwise, encode the `rawValue`...
+            value = enc(rawValue);
+            //and set the key-value pair
+            pair = [key, value];
+        }
+        
+        //join the key-value pair with `=`
+        return pair.join('=');
+    }
+    
     function QueryString(q) {
         var i;
         
@@ -56,7 +80,52 @@
     };
     
     QueryString.stringify = function (hash, semi) {
+        var i,
+            key,
+            pairs,
+            q,
+            separator,
+            value;
         
+        //if `hash` is `null` or `undefined`, there are no key-value pairs
+        if (hash === null ||
+            hash === undefined) {
+            return '';
+        }
+        
+        //create a new array of key-value pairs
+        pairs = [];
+        
+        //for every key in the hash
+        for (key in hash) {
+            if (Object.has(hash, key)) {
+                //get the value
+                value = hash[key];
+                
+                //check whether the value is an array
+                if (value instanceof Array) {
+                    //if it is, iterate through the array...
+                    for (i = 0; i < value.length; i += 1) {
+                        //create key-vaule pairs for each item in the array
+                        pairs.push(buildKeyValuePair(key, value[i]));
+                    }
+                } else {
+                    //if it isn't, create a key-value pair for the item
+                    pairs.push(buildKeyValuePair(key, value));
+                }
+            }
+        }
+        
+        //if there are key-value pairs, start the query-string with `?`
+        q = pairs.length ? '?' : '';
+        
+        //check whether the separator should be `;` or `&`
+        separator = semi ? ';' : '&';
+        
+        //join all the pairs by the separator, and add it to the query-string
+        q += pairs.join(separator);
+        
+        return q;
     };
     
     QueryString.parse = function (q) {
@@ -71,7 +140,7 @@
         
         hash = {};
         
-        //if `q` is `undefined` or `null`, there are no keys
+        //if `q` is `null` or `undefined`, there are no keys
         if (q === null ||
             q === undefined) {
             return hash;
