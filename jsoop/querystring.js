@@ -42,6 +42,7 @@
         return pair.join('=');
     }
     
+    //count the number of different keys in the specified hash
     function keyCount(hash) {
         var c,
             key;
@@ -54,6 +55,8 @@
         return c;
     }
     
+    //create a hashtable of values from the specified array
+    //associated with the number of times each value occurs in the array
     function valueCounts(arr) {
         var hash,
             i,
@@ -62,10 +65,13 @@
         hash = {};
         for (i = 0; i < arr.length; i += 1) {
             value = arr[i];
+            //null and undefined are treated as identical
             if (value === null ||
                 value === undefined) {
                 key = 'null';
             } else {
+                //values are prefixed with `_` to differentiate
+                //between a value of `null` and a value of `"null"`
                 key = '_' + value;
             }
             if (Object.has(hash, key)) {
@@ -86,19 +92,25 @@
             q = '';
         }
         
+        //implicit constructor when called as function
         if (!(this instanceof QueryString)) {
             return new QueryString(q);
         }
         
+        //check for the querystring in the hash of existing querystrings
         if (Object.has(queryStringHash, q)) {
             return queryStringHash[q];
         }
         
         hash = QueryString.parse(q);
         
+        //check the querystring hash for equivalent QueryString instances
         for (i in queryStringHash) {
             if (Object.has(queryStringHash, i) &&
                 queryStringHash[i].equals(hash)) {
+                //if an equivalent instance exists,
+                //alias the query string in the hash,
+                //and return the existing instance
                 queryStringHash[q] = queryStringHash[i];
                 return queryStringHash[q];
             }
@@ -126,43 +138,58 @@
                 hash = QueryString.parse(hash);
             }
             
+            //shortcut function if identical object references were passed
             if (this.hash === hash) {
                 return true;
             }
             
+            //count how many keys each hash has
             thisCount = keyCount(this.hash);
             thatCount = keyCount(hash);
             
+            //if the number of keys are different, the query strings aren't equivalent
             if (thisCount !== thatCount) {
                 return false;
             }
             
+            //check each key in the current hash
             for (key in this.hash) {
                 if (Object.has(this.hash, key)) {
+                    //check if the new hash has the key
                     if (Object.has(hash, key)) {
+                        //get the values of each key
                         thisValue = this.hash[key];
                         thatValue = hash[key];
+                        //turn values into arrays if they're not already
                         if (!(thisValue instanceof Array)) {
                             thisValue = [thisValue];
                         }
                         if (!(thatValue instanceof Array)) {
                             thatValue = [thatValue];
                         }
+                        //if the number of values are different, the query strings aren't equivalent
                         if (thisValue.length !== thatValue.length) {
                             return false;
                         }
+                        //get hash tables of the values and the number of times they occur in the arrays
                         thisValues = valueCounts(thisValue);
                         thatValues = valueCounts(thatValue);
                         
+                        //count how many keys each hash contains
                         thisCount = keyCount(thisValues);
                         thatCount = keyCount(thatValues);
                         
+                        //if there are a different number of keys, the query strings aren't equivalent
                         if (thisCount !== thatCount) {
                             return false;
                         }
                         
+                        //check each value in the values hashes
                         for (value in thisValues) {
                             if (Object.has(thisValues, value)) {
+                                //if a value occurs in one hash but not the other,
+                                //or the values occur a different number of times,
+                                //the query strings aren't equivalent
                                 if (!Object.has(thatValues, value) ||
                                     thisValues[value] !== thatValues[value]) {
                                     return false;
@@ -171,6 +198,7 @@
                         }
                         
                     } else {
+                        //new hash didn't have key, query strings aren't equivalent
                         return false;
                     }
                 }
@@ -178,12 +206,15 @@
             return true;
         },
         hasKey: function (key) {
+            //check that the hash has the specified key
             return Object.has(this.hash, key);
         },
         keys: function () {
             var key,
                 keys;
             keys = [];
+            
+            //add each key in the the hash to the list of keys
             for (key in this.hash) {
                 if (Object.has(this.hash, key)) {
                     keys.push(key);
