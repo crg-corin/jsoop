@@ -29,8 +29,11 @@
             }
             return this;
         },
+        //arguments passed to dequeue should be piped to fn
         dequeue: function () {
             var self;
+            //arguments passed to next should be piped to dequeue
+            //var next = thid.dequeue.bind(this); would be appropriate
             function next() {
                 self.dequeue();
             }
@@ -60,6 +63,11 @@
                 this.q.pop();
             }
             return this;
+        },
+        delay: function (delay) {
+            return this.queue(function (next) {
+                setTimeout(next, delay);
+            });
         }
     };
     
