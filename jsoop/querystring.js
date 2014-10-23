@@ -1,6 +1,6 @@
 ///QueryString.js
 ///QueryString is a multiton
-///QueryString depends on Object.has
+///QueryString depends on _.has
 
 
 /**
@@ -9,7 +9,7 @@
  */
 
 
-(function (root, enc, dec, undefined) {
+(function (root, _, enc, dec, undefined) {
     "use strict";
     
     if (root.QueryString) {
@@ -48,7 +48,7 @@
             key;
         c = 0;
         for (key in hash) {
-            if (Object.has(hash, key)) {
+            if (_.has(hash, key)) {
                 c += 1;
             }
         }
@@ -74,7 +74,7 @@
                 //between a value of `null` and a value of `"null"`
                 key = '_' + value;
             }
-            if (Object.has(hash, key)) {
+            if (_.has(hash, key)) {
                 hash[key] += 1;
             } else {
                 hash[key] = 1;
@@ -98,7 +98,7 @@
         }
         
         //check for the querystring in the hash of existing querystrings
-        if (Object.has(queryStringHash, q)) {
+        if (_.has(queryStringHash, q)) {
             return queryStringHash[q];
         }
         
@@ -106,7 +106,7 @@
         
         //check the querystring hash for equivalent QueryString instances
         for (i in queryStringHash) {
-            if (Object.has(queryStringHash, i) &&
+            if (_.has(queryStringHash, i) &&
                 queryStringHash[i].equals(hash)) {
                 //if an equivalent instance exists,
                 //alias the query string in the hash,
@@ -154,9 +154,9 @@
             
             //check each key in the current hash
             for (key in this.hash) {
-                if (Object.has(this.hash, key)) {
+                if (_.has(this.hash, key)) {
                     //check if the new hash has the key
-                    if (Object.has(hash, key)) {
+                    if (_.has(hash, key)) {
                         //get the values of each key
                         thisValue = this.hash[key];
                         thatValue = hash[key];
@@ -186,11 +186,11 @@
                         
                         //check each value in the values hashes
                         for (value in thisValues) {
-                            if (Object.has(thisValues, value)) {
+                            if (_.has(thisValues, value)) {
                                 //if a value occurs in one hash but not the other,
                                 //or the values occur a different number of times,
                                 //the query strings aren't equivalent
-                                if (!Object.has(thatValues, value) ||
+                                if (!_.has(thatValues, value) ||
                                     thisValues[value] !== thatValues[value]) {
                                     return false;
                                 }
@@ -207,7 +207,7 @@
         },
         hasKey: function (key) {
             //check that the hash has the specified key
-            return Object.has(this.hash, key);
+            return _.has(this.hash, key);
         },
         keys: function () {
             var key,
@@ -216,7 +216,7 @@
             
             //add each key in the the hash to the list of keys
             for (key in this.hash) {
-                if (Object.has(this.hash, key)) {
+                if (_.has(this.hash, key)) {
                     keys.push(key);
                 }
             }
@@ -249,7 +249,7 @@
         
         //for every key in the hash
         for (key in hash) {
-            if (Object.has(hash, key)) {
+            if (_.has(hash, key)) {
                 //get the value
                 value = hash[key];
                 
@@ -338,7 +338,7 @@
             }
             
             //check if the key is present in the hash
-            if (Object.has(hash, key)) {
+            if (_.has(hash, key)) {
                 //if it is, add the new value to the collection of values
                 hash[key].push(value);
             } else {
@@ -353,4 +353,4 @@
     queryStringHash = {};
     
     root.QueryString = QueryString;
-}(this, this.encodeURIComponent, this.decodeURIComponent));
+}(this, this._, this.encodeURIComponent, this.decodeURIComponent));
